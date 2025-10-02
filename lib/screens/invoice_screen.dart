@@ -194,162 +194,100 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       padding: const EdgeInsets.all(16),
                       children: [
                         // Información del cliente
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Información del Cliente',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                TextFormField(
-                                  controller: _customerNameController,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Nombre del Cliente *',
-                                    border: OutlineInputBorder(),
-                                    prefixIcon: Icon(Icons.person),
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.trim().isEmpty) {
-                                      return 'El nombre del cliente es requerido';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                const SizedBox(height: 16),
-                                TextFormField(
-                                  controller: _customerEmailController,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Email del Cliente',
-                                    border: OutlineInputBorder(),
-                                    prefixIcon: Icon(Icons.email),
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  validator: (value) {
-                                    if (value != null && value.isNotEmpty) {
-                                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                                        return 'Ingresa un email válido';
-                                      }
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ],
-                            ),
+                        _buildSectionTitle('Información del Cliente'),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: _customerNameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Nombre del Cliente *',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.person),
                           ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'El nombre del cliente es requerido';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 16),
-                        
+                        TextFormField(
+                          controller: _customerEmailController,
+                          decoration: const InputDecoration(
+                            labelText: 'Email del Cliente',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.email),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value != null && value.isNotEmpty) {
+                              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                  .hasMatch(value)) {
+                                return 'Ingresa un email válido';
+                              }
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 24),
+
                         // Selector de tipo de precio
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Tipo de Precio',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                DropdownButtonFormField<String>(
-                                  value: _selectedPriceType,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    prefixIcon: Icon(Icons.attach_money),
-                                  ),
-                                  items: const [
-                                    DropdownMenuItem(
-                                      value: 'retail',
-                                      child: Text('Precio al Detalle'),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: 'wholesale',
-                                      child: Text('Precio al Mayoreo'),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: 'distribution',
-                                      child: Text('Precio de Distribución'),
-                                    ),
-                                  ],
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _selectedPriceType = value!;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        _buildSectionTitle('Tipo de Precio'),
                         const SizedBox(height: 16),
-                        
+                        DropdownButtonFormField<String>(
+                          value: _selectedPriceType,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.attach_money),
+                          ),
+                          items: const [
+                            DropdownMenuItem(
+                              value: 'retail',
+                              child: Text('Precio al Detalle'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'wholesale',
+                              child: Text('Precio al Mayoreo'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'distribution',
+                              child: Text('Precio de Distribución'),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedPriceType = value!;
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 24),
+
                         // Lista de productos disponibles
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Productos Disponibles',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                ..._products.map((product) => _buildProductTile(product)),
-                              ],
-                            ),
-                          ),
-                        ),
+                        _buildSectionTitle('Productos Disponibles'),
                         const SizedBox(height: 16),
-                        
+                        ..._products
+                            .map((product) => _buildProductTile(product)),
+                        const SizedBox(height: 24),
+
                         // Items de la factura
-                        if (_invoiceItems.isNotEmpty) ..[
-                          Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'Items de la Factura',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  ..._invoiceItems.asMap().entries.map(
-                                    (entry) => _buildInvoiceItem(entry.key, entry.value),
-                                  ),
-                                  const Divider(),
-                                  _buildTotals(),
-                                ],
-                              ),
-                            ),
-                          ),
+                        if (_invoiceItems.isNotEmpty) ...[
+                          _buildSectionTitle('Items de la Factura'),
                           const SizedBox(height: 16),
+                          ..._invoiceItems.asMap().entries.map(
+                                (entry) =>
+                                    _buildInvoiceItem(entry.key, entry.value),
+                              ),
+                          const Divider(height: 32),
+                          _buildTotals(),
+                          const SizedBox(height: 24),
                         ],
                       ],
                     ),
                   ),
-                  
+
                   // Botón para guardar factura
                   if (_invoiceItems.isNotEmpty)
-                    Container(
-                      width: double.infinity,
+                    Padding(
                       padding: const EdgeInsets.all(16),
                       child: ElevatedButton(
                         onPressed: _saveInvoice,
@@ -357,6 +295,9 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           backgroundColor: Colors.green,
                           foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                         child: const Text(
                           'Guardar Factura',
@@ -369,45 +310,60 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
             ),
     );
   }
-  
-  Widget _buildProductTile(Product product) {
-    final price = _getProductPrice(product, _selectedPriceType);
-    
-    return Card(
-      margin: const EdgeInsets.only(bottom: 8),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Theme.of(context).primaryColor,
-          child: Icon(
-            _getCategoryIcon(product.category),
-            color: Colors.white,
-          ),
-        ),
-        title: Text(product.name),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Categoría: ${product.category}'),
-            Text('Stock: ${product.quantity}'),
-            Text(
-              'Precio (${_getPriceTypeLabel(_selectedPriceType)}): \$${price.toStringAsFixed(2)}',
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        trailing: product.quantity > 0
-            ? IconButton(
-                icon: const Icon(Icons.add_shopping_cart),
-                onPressed: () => _showAddProductDialog(product),
-              )
-            : const Text(
-                'Sin stock',
-                style: TextStyle(color: Colors.red),
-              ),
+
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
-  
+
+  Widget _buildProductTile(Product product) {
+    final price = _getProductPrice(product, _selectedPriceType);
+
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+      leading: CircleAvatar(
+        radius: 30,
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+        child: Icon(
+          _getCategoryIcon(product.category),
+          color: Theme.of(context).primaryColor,
+          size: 30,
+        ),
+      ),
+      title: Text(product.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 4),
+          Text('Stock: ${product.quantity}'),
+          const SizedBox(height: 4),
+          Text(
+            'Precio (${_getPriceTypeLabel(_selectedPriceType)}): \$${price.toStringAsFixed(2)}',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+        ],
+      ),
+      trailing: product.quantity > 0
+          ? IconButton(
+              icon: const Icon(Icons.add_shopping_cart, color: Colors.green),
+              onPressed: () => _showAddProductDialog(product),
+              tooltip: 'Agregar al carrito',
+            )
+          : const Text(
+              'Sin stock',
+              style: TextStyle(color: Colors.red),
+            ),
+    );
+  }
+
   IconData _getCategoryIcon(String category) {
     switch (category.toLowerCase()) {
       case 'electrónicos':
@@ -436,27 +392,36 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         return Icons.inventory_2;
     }
   }
-  
+
   Widget _buildInvoiceItem(int index, InvoiceItem item) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 8),
-      child: ListTile(
-        title: Text(item.productName),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Cantidad: ${item.quantity}'),
-            Text('Precio unitario (${_getPriceTypeLabel(item.priceType)}): \$${item.unitPrice.toStringAsFixed(2)}'),
-            Text(
-              'Total: \$${item.total.toStringAsFixed(2)}',
-              style: const TextStyle(fontWeight: FontWeight.bold),
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+      leading: CircleAvatar(
+        radius: 30,
+        backgroundColor: Colors.grey.shade200,
+        child: const Icon(Icons.receipt, color: Colors.black54),
+      ),
+      title: Text(item.productName, style: const TextStyle(fontWeight: FontWeight.bold)),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 4),
+          Text('Cantidad: ${item.quantity}'),
+          Text('Precio unitario (${_getPriceTypeLabel(item.priceType)}): \$${item.unitPrice.toStringAsFixed(2)}'),
+          const SizedBox(height: 4),
+          Text(
+            'Total: \$${item.total.toStringAsFixed(2)}',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
             ),
-          ],
-        ),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete, color: Colors.red),
-          onPressed: () => _removeItemFromInvoice(index),
-        ),
+          ),
+        ],
+      ),
+      trailing: IconButton(
+        icon: const Icon(Icons.delete, color: Colors.red),
+        onPressed: () => _removeItemFromInvoice(index),
+        tooltip: 'Eliminar item',
       ),
     );
   }
