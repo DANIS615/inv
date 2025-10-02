@@ -21,7 +21,7 @@ void main() {
     await tester.pump();
 
     // Tap the scan button
-    await tester.tap(find.widgetWithText(OutlinedButton, 'Escanear código'));
+    await tester.tap(find.text('Escanear código'));
     await tester.pumpAndSettle();
 
     // Verify that the BarcodeScannerScreen was pushed
