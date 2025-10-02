@@ -735,7 +735,7 @@ class _InventoryDashboardScreenState extends State<InventoryDashboardScreen> {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => InvoiceScreen(products: _selectedProducts),
+                  builder: (context) => const InvoiceScreen(),
                 ),
               );
               _loadProducts();

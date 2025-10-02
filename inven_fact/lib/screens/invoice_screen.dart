@@ -316,7 +316,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                         const SizedBox(height: 16),
                         
                         // Items de la factura
-                        if (_invoiceItems.isNotEmpty) ..[
+                        if (_invoiceItems.isNotEmpty) ...[
                           Card(
                             child: Padding(
                               padding: const EdgeInsets.all(16),
