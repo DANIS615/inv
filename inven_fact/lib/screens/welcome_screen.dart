@@ -395,14 +395,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   void _scanClientCode() async {
-    // Si hay texto en el campo, proceder con ese código
-    if (_clientCodeController.text.trim().isNotEmpty) {
-      if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-        _continueToApp();
-      }
-      return;
-    }
-    
     // Abrir escáner de código de barras
     try {
       final String? scannedCode = await Navigator.of(context).push<String>(
